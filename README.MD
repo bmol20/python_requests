@@ -26,11 +26,3 @@ Este projeto foi desenvolvido como exercício prático com base nos cursos da pl
 - Escrita de scripts reutilizáveis
 
 ---
-
-## 🛠️ Como executar
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/seu-usuario/github-language-analyzer.git
-cd github-language-analyzer
