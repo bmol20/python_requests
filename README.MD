@@ -26,3 +26,5 @@ Este projeto foi desenvolvido como exercício prático com base nos cursos da pl
 - Escrita de scripts reutilizáveis
 
 ---
+
+# EM CASO DE TESTE, COLOQUE O SEU TOKEN PARA A API DO GITHUB FUNCIONAR
