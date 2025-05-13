@@ -5,7 +5,7 @@ import pandas as pd
 class Api:
     def __init__(self, owner):
         self.api_base_url = 'https://api.github.com'
-        self.access_token = 'ghp_COLOQUE SEU TOKEN AQUI'
+        self.access_token = 'ghp_COLOQUE SEU TOKEN AQUI' # <---------- INCLUA SEU TOKEN AQUI
         self.api_version_call = 'X-Github-Api-Version'
         self.api_version_data = '2022-11-28'
         self.header = {'Authorization': 'Bearer ' + self.access_token,
