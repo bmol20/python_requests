@@ -72,7 +72,7 @@ class Api:
     
     def salvar_dados(self):
         nome_arquivo = f'{self.owner}.csv'
-        caminho_arquivo = f'/home/bruno/python_requests/{self.owner}.csv'
+        caminho_arquivo = f'{self.owner}.csv'
 
         with open(caminho_arquivo, 'rb') as file:
             file_content = file.read()
@@ -83,10 +83,17 @@ class Api:
             "message": f"Adicionando o arquivo {nome_arquivo}",
             "content": encoded_content.decode("utf-8")
         }
-
+        
         response = requests.put(url, json=data, headers=self.header)
-        print(f'Status_code do upload do arquivo: {response.status_code}')
-    
+
+        if response.status_code == 201:
+            print(f"✅ Arquivo enviado com sucesso para o repositório '{self.repo}'.")
+        elif response.status_code == 422:
+            print("⚠️ O arquivo já existe nesse repositório.")
+        else:
+            print(f"❌ Erro ao salvar no GitHub: {response.status_code}")
+            print(response.json())
+
 def extrair_nome(lista):
     repos_names = []
     for page in lista:
