@@ -1,11 +1,14 @@
 import requests
 import re
 import pandas as pd
+import base64
 
 class Api:
-    def __init__(self, owner):
+    def __init__(self, owner, username, repo):
+        self.username = username
+        self.repo = repo
         self.api_base_url = 'https://api.github.com'
-        self.access_token = 'ghp_COLOQUE SEU TOKEN AQUI' # <---------- INCLUA SEU TOKEN AQUI
+        self.access_token = 'ghp_SEU TOKEN' # <---------- INCLUA SEU TOKEN AQUI
         self.api_version_call = 'X-Github-Api-Version'
         self.api_version_data = '2022-11-28'
         self.header = {'Authorization': 'Bearer ' + self.access_token,
@@ -47,9 +50,10 @@ class Api:
         dados = self.listar_repositorios()
 
         if len(dados) <= 1:
+            print('\n\n===========================ERROR===========================\n')
             print("Nenhum dado encontrado. Verifique se o nome da empresa está correto.")
             print('Dica: O nome da empresa fica disponível no endereço do site da seguinte forma')
-            print('https://github.com/orgs/NOME-DA-EMPRESA/repositories?')
+            print('https://github.com/orgs/NOME-DA-EMPRESA/repositories? \n\n')
             return []
 
         dados_names = extrair_nome(dados)
@@ -62,7 +66,26 @@ class Api:
 
         df.to_csv(f'{self.owner}.csv', index=False)
 
+        self.salvar_dados()
+
         return df
+    
+    def salvar_dados(self):
+        nome_arquivo = f'{self.owner}.csv'
+        caminho_arquivo = f'/home/bruno/python_requests/{self.owner}.csv'
+
+        with open(caminho_arquivo, 'rb') as file:
+            file_content = file.read()
+        encoded_content = base64.b64encode(file_content)
+
+        url = f'{self.api_base_url}/repos/{self.username}/{self.repo}/contents/{nome_arquivo}'
+        data = {
+            "message": f"Adicionando o arquivo {nome_arquivo}",
+            "content": encoded_content.decode("utf-8")
+        }
+
+        response = requests.put(url, json=data, headers=self.header)
+        print(f'Status_code do upload do arquivo: {response.status_code}')
     
 def extrair_nome(lista):
     repos_names = []
